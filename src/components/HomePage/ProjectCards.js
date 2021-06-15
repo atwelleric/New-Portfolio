@@ -17,9 +17,9 @@ let Card = styled(motion.img)`
 `;
 
 const AvtcCardImage = styled(Card)`
-  width: ${(props) => (props.showAvtc ? `30vw` : `15vw`)};
+  /* width: ${(props) => (props.showAvtc ? `30vw` : `15vw`)}; */
   height: ${(props) => (props.showAvtc ? `50vh` : `25vh`)};
-  left: ${(props) => (props.showAvtc ? `2vmin` : `18vmin`)};
+  left: ${(props) => (props.showAvtc ? `2vmin` : `2vmin`)};
   top: ${(props) => (props.showAvtc ? `10vmin` : `65vmin`)};
   transform: ${(props) => (props.showAvtc ? `rotate(0deg)` : `rotate(-20deg)`)};
   &:hover {
@@ -36,10 +36,10 @@ const AvtcCardImage = styled(Card)`
 `;
 
 const KidsDayImage = styled(Card)`
-  width: ${(props) => (props.showKidsDay ? `30vw` : `15vw`)};
+  /* width: ${(props) => (props.showKidsDay ? `30vw` : `15vw`)}; */
   height: ${(props) => (props.showKidsDay ? `50vh` : `25vh`)};
-  left: ${(props) => (props.showKidsDay ? `2vmin` : `-2vmin`)};
-  top: ${(props) => (props.showKidsDay ? `10vmin` : `62vmin`)};
+  left: ${(props) => (props.showKidsDay ? `2vmin` : `-8vmin`)};
+  top: ${(props) => (props.showKidsDay ? `10vmin` : `63vmin`)};
   transform: ${(props) =>
     props.showKidsDay ? `rotate(0deg)` : `rotate(-10deg)`};
   &:hover {
@@ -53,7 +53,7 @@ const KidsDayImage = styled(Card)`
 `;
 
 const HangmanImage = styled(Card)`
-  width: ${(props) => (props.showHangman ? `30vw` : `15vw`)};
+  /* width: ${(props) => (props.showHangman ? `30vw` : `15vw`)}; */
   height: ${(props) => (props.showHangman ? `50vh` : `25vh`)};
   left: ${(props) => (props.showHangman ? `2vmin` : `-20vmin`)};
   top: ${(props) => (props.showHangman ? `10vmin` : `61vmin`)};
@@ -68,10 +68,10 @@ const HangmanImage = styled(Card)`
 `;
 
 const CodeShareImage = styled(Card)`
-  width: ${(props) => (props.showCodeShare ? `30vw` : `15vw`)};
+  /* width: ${(props) => (props.showCodeShare ? `30vw` : `15vw`)}; */
   height: ${(props) => (props.showCodeShare ? `50vh` : `25vh`)};
-  left: ${(props) => (props.showCodeShare ? `2vmin` : `-38vmin`)};
-  top: ${(props) => (props.showCodeShare ? `10vmin` : `62vmin`)};
+  left: ${(props) => (props.showCodeShare ? `2vmin` : `-28vmin`)};
+  top: ${(props) => (props.showCodeShare ? `10vmin` : `61vmin`)};
   transform: ${(props) =>
     props.showCodeShare ? `rotate(0deg)` : `rotate(10deg)`};
   &:hover {
@@ -85,15 +85,15 @@ const CodeShareImage = styled(Card)`
 `;
 
 const ArcadeImage = styled(Card)`
-  width: ${(props) => (props.showArcade ? `30vw` : `15vw`)};
+  /* width: ${(props) => (props.showArcade ? `30vw` : `15vw`)}; */
   height: ${(props) => (props.showArcade ? `50vh` : `25vh`)};
-  left: ${(props) => (props.showArcade ? `-120vmin` : `-57vmin`)};
+  left: ${(props) => (props.showArcade ? `-120vmin` : `-34vmin`)};
   top: ${(props) => (props.showArcade ? `10vmin` : `65vmin`)};
   transform: ${(props) =>
     props.showArcade ? `rotate(0deg)` : `rotate(20deg)`};
   &:hover {
     ${(props) =>
-      props.showAracde
+      props.showArcade
         ? null
         : `width: 15vw;
     height: 30vh;
