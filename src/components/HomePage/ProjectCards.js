@@ -7,99 +7,138 @@ import CodeShareCardSvg from "../../resources/codesharecard.svg";
 import ArcadeCardSvg from "../../resources/arcadecard.svg";
 import { motion } from "framer-motion";
 
+let active;
+console.log(active);
+
 let Card = styled(motion.img)`
   // helps with jagged edges from rotating svg
   -webkit-backface-visibility: hidden;
   position: relative;
-  height: 25vh;
-  width: 15vw;
-  &:hover {
-    width: 15vw;
-    height: 30vh;
-    z-index: 1;
-  }
-`;
-
-const moveUp = keyframes`
-  from{top:65vmin}
-  to{top:5vmin}
-`;
-
-const moveBack = keyframes`
-  from{top:5vmin}
-  to{top:65vmin}
 `;
 
 const AvtcCardImage = styled(Card)`
-  width: 15vw;
-  height: 25vh;
-  left: 18vmin;
-  top: ${(props) => (props.showUp ? `65vmin` : `5vmin`)};
-  transform: rotate(-20deg);
+  width: ${(props) => (props.showAvtc ? `30vw` : `15vw`)};
+  height: ${(props) => (props.showAvtc ? `50vh` : `25vh`)};
+  left: ${(props) => (props.showAvtc ? `2vmin` : `18vmin`)};
+  top: ${(props) => (props.showAvtc ? `10vmin` : `65vmin`)};
+  transform: ${(props) => (props.showAvtc ? `rotate(0deg)` : `rotate(-20deg)`)};
+  &:hover {
+    ${(props) =>
+      props.showAvtc
+        ? null
+        : `width: 15vw;
+    height: 30vh;
+    z-index: 1;`}
+  }
   /* &:hover {
     left: 5vw;
   } */
 `;
 
 const KidsDayImage = styled(Card)`
-  width: 15vw;
-  height: 25vh;
-  left: -2vmin;
-  top: 62vmin;
-  transform: rotate(-10deg);
+  width: ${(props) => (props.showKidsDay ? `30vw` : `15vw`)};
+  height: ${(props) => (props.showKidsDay ? `50vh` : `25vh`)};
+  left: ${(props) => (props.showKidsDay ? `2vmin` : `-2vmin`)};
+  top: ${(props) => (props.showKidsDay ? `10vmin` : `62vmin`)};
+  transform: ${(props) =>
+    props.showKidsDay ? `rotate(0deg)` : `rotate(-10deg)`};
+  &:hover {
+    ${(props) =>
+      props.showKidsDay
+        ? null
+        : `width: 15vw;
+    height: 30vh;
+    z-index: 1;`}
+  }
 `;
 
 const HangmanImage = styled(Card)`
-  width: 15vw;
-  height: 25vh;
-  left: -20vmin;
-  top: 61vmin;
+  width: ${(props) => (props.showHangman ? `30vw` : `15vw`)};
+  height: ${(props) => (props.showHangman ? `50vh` : `25vh`)};
+  left: ${(props) => (props.showHangman ? `2vmin` : `-20vmin`)};
+  top: ${(props) => (props.showHangman ? `10vmin` : `61vmin`)};
+  &:hover {
+    ${(props) =>
+      props.showHangman
+        ? null
+        : `width: 15vw;
+    height: 30vh;
+    z-index: 1;`}
+  }
 `;
 
 const CodeShareImage = styled(Card)`
-  width: 15vw;
-  height: 25vh;
-  left: -38vmin;
-  top: 62vmin;
-  transform: rotate(10deg);
+  width: ${(props) => (props.showCodeShare ? `30vw` : `15vw`)};
+  height: ${(props) => (props.showCodeShare ? `50vh` : `25vh`)};
+  left: ${(props) => (props.showCodeShare ? `2vmin` : `-38vmin`)};
+  top: ${(props) => (props.showCodeShare ? `10vmin` : `62vmin`)};
+  transform: ${(props) =>
+    props.showCodeShare ? `rotate(0deg)` : `rotate(10deg)`};
+  &:hover {
+    ${(props) =>
+      props.showCodeShare
+        ? null
+        : `width: 15vw;
+    height: 30vh;
+    z-index: 1;`}
+  }
 `;
 
 const ArcadeImage = styled(Card)`
-  margin: 0;
-  padding: 0;
-  width: 15vw;
-  height: 25vh;
-  left: -57vmin;
-  top: 65vmin;
-  transform: rotate(20deg);
+  width: ${(props) => (props.showArcade ? `30vw` : `15vw`)};
+  height: ${(props) => (props.showArcade ? `50vh` : `25vh`)};
+  left: ${(props) => (props.showArcade ? `-120vmin` : `-57vmin`)};
+  top: ${(props) => (props.showArcade ? `10vmin` : `65vmin`)};
+  transform: ${(props) =>
+    props.showArcade ? `rotate(0deg)` : `rotate(20deg)`};
+  &:hover {
+    ${(props) =>
+      props.showAracde
+        ? null
+        : `width: 15vw;
+    height: 30vh;
+    z-index: 1;`}
+  }
 `;
 
-//Clear isActive array
-//OnClick selects card and adds to isActive array
-//isActive toggles class
-//each card needs different is active styled component
-//string concat isActive+"avtccard"?
-
 export default function ProjectCards(props) {
-  // const [avtcSelected, setAvtcSelected] = useState(false);
-  // const [kidsDaySelected, setKidsDaySelected] = useState(false);
-  // const [hangmanSelected, setHangmanSelected] = useState(false);
-  // const [codeShareSelected, setCodeShareSelected] = useState(false);
-  // const [arcadeSelected, setArcadeSelected] = useState(false);
+  const [avtcSelected, setAvtcSelected] = useState(false);
+  const [kidsDaySelected, setKidsDaySelected] = useState(false);
+  const [hangmanSelected, setHangmanSelected] = useState(false);
+  const [codeShareSelected, setCodeShareSelected] = useState(false);
+  const [arcadeSelected, setArcadeSelected] = useState(false);
 
-  // const reset = () => {
-  //   setAvtcSelected(false);
-  //   setKidsDaySelected(false);
-  //   setHangmanSelected(false);
-  //   setCodeShareSelected(false);
-  //   setArcadeSelected(false);
-  // };
+  const reset = () => {
+    setAvtcSelected(false);
+    setKidsDaySelected(false);
+    setHangmanSelected(false);
+    setCodeShareSelected(false);
+    setArcadeSelected(false);
+  };
 
-  const [isClick, setIsClick] = useState(false);
+  const avtcClick = () => {
+    reset();
+    setAvtcSelected(!avtcSelected);
+  };
 
-  const handleClick = () => {
-    setIsClick(!isClick);
-    console.log(isClick);
+  const kidsDayClick = () => {
+    reset();
+    setKidsDaySelected(!kidsDaySelected);
+  };
+
+  const hangmanClick = () => {
+    reset();
+    setHangmanSelected(!hangmanSelected);
+  };
+
+  const codeShareClick = () => {
+    reset();
+    setCodeShareSelected(!codeShareSelected);
+  };
+
+  const arcadeClick = () => {
+    reset();
+    setArcadeSelected(!arcadeSelected);
   };
 
   return (
@@ -108,18 +147,34 @@ export default function ProjectCards(props) {
         src={AvtcCardSvg}
         id="avtc"
         alt="AVTC Card"
-        showUp={isClick}
-        onTap={handleClick}
+        showAvtc={avtcSelected}
+        onTap={avtcClick}
       />
 
       <KidsDayImage
         src={KidsDayCardSvg}
         alt="kids day Card"
-        // onClick={() => setKidsDaySelected(true)}
+        showKidsDay={kidsDaySelected}
+        onTap={kidsDayClick}
       />
-      <HangmanImage src={HangmanCardSvg} alt="Hangman Card" />
-      <CodeShareImage src={CodeShareCardSvg} alt="CodeShare Card" />
-      <ArcadeImage src={ArcadeCardSvg} alt="Arcade Card" />
+      <HangmanImage
+        src={HangmanCardSvg}
+        alt="Hangman Card"
+        showHangman={hangmanSelected}
+        onTap={hangmanClick}
+      />
+      <CodeShareImage
+        src={CodeShareCardSvg}
+        alt="CodeShare Card"
+        showCodeShare={codeShareSelected}
+        onTap={codeShareClick}
+      />
+      <ArcadeImage
+        src={ArcadeCardSvg}
+        alt="Arcade Card"
+        showArcade={arcadeSelected}
+        onTap={arcadeClick}
+      />
     </div>
   );
 }
