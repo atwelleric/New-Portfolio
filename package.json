@@ -11,6 +11,7 @@
     "framer-motion": "^4.1.17",
     "react": "^16.8",
     "react-dom": "^16.8",
+    "react-player": "^2.9.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^1.1.5",
     "react-vivus": "^0.0.2",
