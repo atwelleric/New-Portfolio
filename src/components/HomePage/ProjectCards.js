@@ -1,279 +1,384 @@
-import React, { useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
-import AvtcCardSvg from '../../resources/avtccard.svg';
-import HangmanCardSvg from '../../resources/hangmancard.svg';
-import KidsDayCardSvg from '../../resources/kidsdaycard.svg';
-import CodeShareCardSvg from '../../resources/codesharecard.svg';
-import ArcadeCardSvg from '../../resources/arcadecard.svg';
-import { motion } from 'framer-motion';
-import ReactPlayer from 'react-player';
-import YouTubePlayer from 'react-player/youtube';
+import React, { useState } from "react";
+import styled, { css, keyframes } from "styled-components";
+import AvtcCardSvg from "../../resources/avtccard.svg";
+import HangmanCardSvg from "../../resources/hangmancard.svg";
+import KidsDayCardSvg from "../../resources/kidsdaycard.svg";
+import CodeShareCardSvg from "../../resources/codesharecard.svg";
+import ArcadeCardSvg from "../../resources/arcadecard.svg";
+import { motion } from "framer-motion";
+import ReactPlayer from "react-player";
 
-let active;
-console.log(active);
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 15vh 50vh 25vh;
+  /* justify-content: center; */
+`;
 
 let Card = styled(motion.img)`
-	// helps with jagged edges from rotating svg
-	-webkit-backface-visibility: hidden;
-	position: relative;
+  // helps with jagged edges from rotating svg
+  -webkit-backface-visibility: hidden;
+  position: relative;
+  &:hover {
+    height: 25vh;
+    z-index: 1;
+  }
+`;
+
+// This broke the click back when clicking on an already active card
+
+let ActiveCard = styled.img`
+  -webkit-backface-visibility: hidden;
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: start;
+  height: 35vh;
 `;
 
 const AvtcCardImage = styled(Card)`
-	/* width: ${(props) => (props.showAvtc ? `30vw` : `15vw`)}; */
-	height: ${(props) => (props.showAvtc ? `50vh` : `25vh`)};
-	left: ${(props) => (props.showAvtc ? `2vmin` : `2vmin`)};
-	top: ${(props) => (props.showAvtc ? `10vmin` : `65vmin`)};
-	transform: ${(props) => (props.showAvtc ? `rotate(0deg)` : `rotate(-20deg)`)};
-	&:hover {
-		${(props) =>
-			props.showAvtc
-				? null
-				: `width: 15vw;
-    height: 30vh;
-    z-index: 1;`}
-	}
-	/* &:hover {
-    left: 5vw;
-  } */
+  grid-row: 3;
+  grid-column: 1;
+  justify-self: end;
+  left: -3vw;
+  height: 20vh;
+  transform: rotate(-20deg);
 `;
+
+const AvtcCardActive = styled(ActiveCard)``;
 
 const KidsDayImage = styled(Card)`
-	/* width: ${(props) => (props.showKidsDay ? `30vw` : `15vw`)}; */
-	height: ${(props) => (props.showKidsDay ? `50vh` : `25vh`)};
-	left: ${(props) => (props.showKidsDay ? `2vmin` : `-8vmin`)};
-	top: ${(props) => (props.showKidsDay ? `10vmin` : `63vmin`)};
-	transform: ${(props) =>
-		props.showKidsDay ? `rotate(0deg)` : `rotate(-10deg)`};
-	&:hover {
-		${(props) =>
-			props.showKidsDay
-				? null
-				: `width: 15vw;
-    height: 30vh;
-    z-index: 1;`}
-	}
+  grid-row: 3;
+  grid-column: 1;
+  justify-self: end;
+  bottom: 2vh;
+  height: 20vh;
+  transform: rotate(-10deg);
 `;
+const KidsDayCardActive = styled(ActiveCard)``;
 
 const HangmanImage = styled(Card)`
-	/* width: ${(props) => (props.showHangman ? `30vw` : `15vw`)}; */
-	height: ${(props) => (props.showHangman ? `50vh` : `25vh`)};
-	left: ${(props) => (props.showHangman ? `2vmin` : `-20vmin`)};
-	top: ${(props) => (props.showHangman ? `10vmin` : `61vmin`)};
-	&:hover {
-		${(props) =>
-			props.showHangman
-				? null
-				: `width: 15vw;
-    height: 30vh;
-    z-index: 1;`}
-	}
+  grid-row: 3;
+  grid-column: 2;
+  left: -3vw;
+  height: 20vh;
+  bottom: 3vh;
 `;
 
+const HangmanCardActive = styled(ActiveCard)``;
+
 const CodeShareImage = styled(Card)`
-	/* width: ${(props) => (props.showCodeShare ? `30vw` : `15vw`)}; */
-	height: ${(props) => (props.showCodeShare ? `50vh` : `25vh`)};
-	left: ${(props) => (props.showCodeShare ? `2vmin` : `-28vmin`)};
-	top: ${(props) => (props.showCodeShare ? `10vmin` : `61vmin`)};
-	transform: ${(props) =>
-		props.showCodeShare ? `rotate(0deg)` : `rotate(10deg)`};
-	&:hover {
-		${(props) =>
-			props.showCodeShare
-				? null
-				: `width: 15vw;
-    height: 30vh;
-    z-index: 1;`}
-	}
+  grid-row: 3;
+  grid-column: 2;
+  left: 1vw;
+  bottom: 2vh;
+  height: 20vh;
+  transform: ${(props) =>
+    props.showCodeShare ? `rotate(0deg)` : `rotate(10deg)`};
+`;
+
+const CodeShareCardActive = styled(ActiveCard)`
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: start;
+  height: 35vh;
 `;
 
 const ArcadeImage = styled(Card)`
-	/* width: ${(props) => (props.showArcade ? `30vw` : `15vw`)}; */
-	height: ${(props) => (props.showArcade ? `50vh` : `25vh`)};
-	left: ${(props) => (props.showArcade ? `-120vmin` : `-34vmin`)};
-	top: ${(props) => (props.showArcade ? `10vmin` : `65vmin`)};
-	transform: ${(props) =>
-		props.showArcade ? `rotate(0deg)` : `rotate(20deg)`};
-	&:hover {
-		${(props) =>
-			props.showArcade
-				? null
-				: `width: 15vw;
-    height: 30vh;
-    z-index: 1;`}
-	}
+  grid-row: 3;
+  grid-column: 2;
+  left: 5vw;
+  height: 20vh;
+  transform: ${(props) =>
+    props.showArcade ? `rotate(0deg)` : `rotate(20deg)`};
 `;
+
+const ArcadeCardActive = styled(ActiveCard)``;
 
 //Title
 const Title = styled.h1`
-	display: flex;
-	justify-content: end;
-	font-size: 45px;
-	padding: 30px;
+  /* display: flex;
+  justify-content: end; */
+  /* display: grid;
+  grid-row: 1;
+  grid-column: 3; */
+  font-size: 45px;
+  padding: 30px;
 `;
 
 // Github Repo link
 const GithubLink = styled.a`
-	display: flex;
-	justify-content: start;
-	font-size: 45px;
-	padding: 30px;
+  display: flex;
+  justify-content: start;
+  grid-row: 1;
+  font-size: 45px;
+  padding: 30px;
 `;
 
 // Deployed version link
 const DeployedLink = styled.a`
-	display: flex;
-	justify-content: start;
-	font-size: 45px;
-	padding: 30px;
+  display: flex;
+  justify-content: start;
+  font-size: 45px;
+  padding: 30px;
 `;
 // youtube embeded
 const Youtube = styled(ReactPlayer)`
-	//does not work this way
-	height: 25px;
-	width: 25px;
+  //does not work this way
+  height: 25px;
+  width: 25px;
 `;
 
 export default function ProjectCards() {
-	const [avtcSelected, setAvtcSelected] = useState(false);
-	const [kidsDaySelected, setKidsDaySelected] = useState(false);
-	const [hangmanSelected, setHangmanSelected] = useState(false);
-	const [codeShareSelected, setCodeShareSelected] = useState(false);
-	const [arcadeSelected, setArcadeSelected] = useState(false);
+  const [avtcSelected, setAvtcSelected] = useState(false);
+  const [kidsDaySelected, setKidsDaySelected] = useState(false);
+  const [hangmanSelected, setHangmanSelected] = useState(false);
+  const [codeShareSelected, setCodeShareSelected] = useState(false);
+  const [arcadeSelected, setArcadeSelected] = useState(false);
 
-	const reset = () => {
-		setAvtcSelected(false);
-		setKidsDaySelected(false);
-		setHangmanSelected(false);
-		setCodeShareSelected(false);
-		setArcadeSelected(false);
-	};
+  const reset = () => {
+    setAvtcSelected(false);
+    setKidsDaySelected(false);
+    setHangmanSelected(false);
+    setCodeShareSelected(false);
+    setArcadeSelected(false);
+  };
 
-	const avtcClick = () => {
-		reset();
-		setAvtcSelected(!avtcSelected);
-	};
+  const avtcClick = () => {
+    reset();
+    setAvtcSelected(!avtcSelected);
+  };
 
-	const kidsDayClick = () => {
-		reset();
-		setKidsDaySelected(!kidsDaySelected);
-	};
+  const kidsDayClick = () => {
+    reset();
+    setKidsDaySelected(!kidsDaySelected);
+  };
 
-	const hangmanClick = () => {
-		reset();
-		setHangmanSelected(!hangmanSelected);
-	};
+  const hangmanClick = () => {
+    reset();
+    setHangmanSelected(!hangmanSelected);
+  };
 
-	const codeShareClick = () => {
-		reset();
-		setCodeShareSelected(!codeShareSelected);
-	};
+  const codeShareClick = () => {
+    reset();
+    setCodeShareSelected(!codeShareSelected);
+  };
 
-	const arcadeClick = () => {
-		reset();
-		setArcadeSelected(!arcadeSelected);
-	};
+  const arcadeClick = () => {
+    reset();
+    setArcadeSelected(!arcadeSelected);
+  };
 
-	return (
-		<div>
-			<AvtcCardImage
-				src={AvtcCardSvg}
-				id='avtc'
-				alt='AVTC Card'
-				showAvtc={avtcSelected}
-				onTap={avtcClick}
-			/>
+  return (
+    <Container>
+      {/* ternary operation for avtc card active vs innactive
+	  
+	 */}
+      {avtcSelected ? (
+        <AvtcCardActive
+          src={AvtcCardSvg}
+          alt="AVTC Card"
+          showAvtc={avtcSelected}
+          onTap={avtcClick}
+        />
+      ) : (
+        <AvtcCardImage
+          src={AvtcCardSvg}
+          id="avtc"
+          alt="AVTC Card"
+          showAvtc={avtcSelected}
+          onTap={avtcClick}
+        />
+      )}
+      {/* 
+	  
+	 
+	 
+	  toggles avtc Title and links when avtc is active
+	  
+	 
+	 
+	 */}
+      {avtcSelected ? <Title>Avtc</Title> : null}
+      {avtcSelected ? (
+        <GithubLink href="https://github.com/atwelleric/New-Portfolio/tree/devEA">
+          Github
+        </GithubLink>
+      ) : null}
+      {avtcSelected ? (
+        <DeployedLink href="www.deployed.com">Deployed</DeployedLink>
+      ) : null}
+      {avtcSelected ? (
+        <Youtube url="https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK" />
+      ) : null}
+      {/* 
+	  
+	 
+	 ternary operation for Kids Day card active vs innactive
+	 
+	 
+	 */}
+      {kidsDaySelected ? (
+        <KidsDayCardActive
+          src={KidsDayCardSvg}
+          alt="kids day Card"
+          showKidsDay={kidsDaySelected}
+          onTap={kidsDayClick}
+        />
+      ) : (
+        <KidsDayImage
+          src={KidsDayCardSvg}
+          alt="kids day Card"
+          showKidsDay={kidsDaySelected}
+          onTap={kidsDayClick}
+        />
+      )}
+      {/* 
+	  
+	 
+	 toggles KidsDay Title and links when avtc is active
+	 
+	 
+	 */}
+      {kidsDaySelected ? <Title>Kids Day</Title> : null}
+      {kidsDaySelected ? (
+        <GithubLink href="https://github.com/atwelleric/New-Portfolio/tree/devEA">
+          Github
+        </GithubLink>
+      ) : null}
+      {kidsDaySelected ? (
+        <DeployedLink href="www.deployed.com">Deployed</DeployedLink>
+      ) : null}
+      {kidsDaySelected ? (
+        <Youtube url="https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK" />
+      ) : null}
+      {/* 
+	  
+	 
+	 ternary operation for Hangman card active vs innactive
+	 
+	 
+	 */}
+      {hangmanSelected ? (
+        <HangmanCardActive
+          src={HangmanCardSvg}
+          alt="Hangman Card"
+          showHangman={hangmanSelected}
+          onTap={hangmanClick}
+        />
+      ) : (
+        <HangmanImage
+          src={HangmanCardSvg}
+          alt="Hangman Card"
+          showHangman={hangmanSelected}
+          onTap={hangmanClick}
+        />
+      )}
 
-			{avtcSelected ? <Title>Avtc</Title> : null}
-			{avtcSelected ? (
-				<GithubLink href='https://github.com/atwelleric/New-Portfolio/tree/devEA'>
-					Github
-				</GithubLink>
-			) : null}
-			{avtcSelected ? (
-				<DeployedLink href='www.deployed.com'>Deployed</DeployedLink>
-			) : null}
-			{avtcSelected ? (
-				<Youtube url='https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK' />
-			) : null}
+      {/* 
+	  
+	 
+	 toggles Hangman Title and links when avtc is active
+	 
+	 
+	 */}
+      {hangmanSelected ? <Title>Hangman</Title> : null}
+      {hangmanSelected ? (
+        <GithubLink href="https://github.com/atwelleric/New-Portfolio/tree/devEA">
+          Github
+        </GithubLink>
+      ) : null}
+      {hangmanSelected ? (
+        <DeployedLink href="www.deployed.com">Deployed</DeployedLink>
+      ) : null}
+      {hangmanSelected ? (
+        <Youtube url="https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK" />
+      ) : null}
+      {/* 
+	  
+	 
+	 ternary operation for CodeShare card active vs innactive
+	 
+	 
+	 */}
 
-			<KidsDayImage
-				src={KidsDayCardSvg}
-				alt='kids day Card'
-				showKidsDay={kidsDaySelected}
-				onTap={kidsDayClick}
-			/>
-			{kidsDaySelected ? <Title>Kids Day</Title> : null}
-			{kidsDaySelected ? (
-				<GithubLink href='https://github.com/atwelleric/New-Portfolio/tree/devEA'>
-					Github
-				</GithubLink>
-			) : null}
-			{kidsDaySelected ? (
-				<DeployedLink href='www.deployed.com'>Deployed</DeployedLink>
-			) : null}
-			{kidsDaySelected ? (
-				<Youtube url='https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK' />
-			) : null}
+      {codeShareSelected ? (
+        <CodeShareCardActive
+          src={CodeShareCardSvg}
+          alt="CodeShare Card"
+          showCodeShare={codeShareSelected}
+          onTap={codeShareClick}
+        />
+      ) : (
+        <CodeShareImage
+          src={CodeShareCardSvg}
+          alt="CodeShare Card"
+          showCodeShare={codeShareSelected}
+          onTap={codeShareClick}
+        />
+      )}
 
-			<HangmanImage
-				src={HangmanCardSvg}
-				alt='Hangman Card'
-				showHangman={hangmanSelected}
-				onTap={hangmanClick}
-			/>
+      {/* 
+	  
+	 
+	 toggles CodeShare Title and links when avtc is active
+	 
+	 
+	 */}
+      {codeShareSelected ? <Title>Code Share</Title> : null}
+      {codeShareSelected ? (
+        <GithubLink href="https://github.com/atwelleric/New-Portfolio/tree/devEA">
+          Github
+        </GithubLink>
+      ) : null}
+      {codeShareSelected ? (
+        <DeployedLink href="www.deployed.com">Deployed</DeployedLink>
+      ) : null}
+      {codeShareSelected ? (
+        <Youtube url="https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK" />
+      ) : null}
+      {/* 
+	  
+	 
+	 ternary operation for Arcade card active vs innactive
+	 
+	 
+	 */}
 
-			{hangmanSelected ? <Title>Hangman</Title> : null}
-			{hangmanSelected ? (
-				<GithubLink href='https://github.com/atwelleric/New-Portfolio/tree/devEA'>
-					Github
-				</GithubLink>
-			) : null}
-			{hangmanSelected ? (
-				<DeployedLink href='www.deployed.com'>Deployed</DeployedLink>
-			) : null}
-			{hangmanSelected ? (
-				<Youtube url='https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK' />
-			) : null}
+      {arcadeSelected ? (
+        <ArcadeCardActive
+          src={ArcadeCardSvg}
+          alt="Arcade Card"
+          showArcade={arcadeSelected}
+          onTap={arcadeClick}
+        />
+      ) : (
+        <ArcadeImage
+          src={ArcadeCardSvg}
+          alt="Arcade Card"
+          showArcade={arcadeSelected}
+          onTap={arcadeClick}
+        />
+      )}
 
-			<CodeShareImage
-				src={CodeShareCardSvg}
-				alt='CodeShare Card'
-				showCodeShare={codeShareSelected}
-				onTap={codeShareClick}
-			/>
-
-			{codeShareSelected ? <Title>Code Share</Title> : null}
-			{codeShareSelected ? (
-				<GithubLink href='https://github.com/atwelleric/New-Portfolio/tree/devEA'>
-					Github
-				</GithubLink>
-			) : null}
-			{codeShareSelected ? (
-				<DeployedLink href='www.deployed.com'>Deployed</DeployedLink>
-			) : null}
-			{codeShareSelected ? (
-				<Youtube url='https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK' />
-			) : null}
-
-			<ArcadeImage
-				src={ArcadeCardSvg}
-				alt='Arcade Card'
-				showArcade={arcadeSelected}
-				onTap={arcadeClick}
-			/>
-
-			{arcadeSelected ? <Title>Arcade</Title> : null}
-			{arcadeSelected ? (
-				<GithubLink href='https://github.com/atwelleric/New-Portfolio/tree/devEA'>
-					Github
-				</GithubLink>
-			) : null}
-			{arcadeSelected ? (
-				<DeployedLink href='www.deployed.com'>Deployed</DeployedLink>
-			) : null}
-			{arcadeSelected ? (
-				<Youtube url='https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK' />
-			) : null}
-		</div>
-	);
+      {/*
+	  
+	 
+	 toggles Arcade Title and links when avtc is active 
+	 
+	 
+	 */}
+      {arcadeSelected ? <Title>Arcade</Title> : null}
+      {arcadeSelected ? (
+        <GithubLink href="https://github.com/atwelleric/New-Portfolio/tree/devEA">
+          Github
+        </GithubLink>
+      ) : null}
+      {arcadeSelected ? (
+        <DeployedLink href="www.deployed.com">Deployed</DeployedLink>
+      ) : null}
+      {arcadeSelected ? (
+        <Youtube url="https://www.youtube.com/watch?v=NtKEOM1CTQ8&list=PLG5aTkXQ4DLJrYkLzbquVzhT8BgOf80pK" />
+      ) : null}
+    </Container>
+  );
 }
