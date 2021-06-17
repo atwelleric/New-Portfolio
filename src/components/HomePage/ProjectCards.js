@@ -11,7 +11,7 @@ import ReactPlayer from "react-player";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 15vh 50vh 25vh;
+  grid-template-rows: 10vh 70vh 20vh;
   /* justify-content: center; */
 `;
 
@@ -31,8 +31,8 @@ let ActiveCard = styled.img`
   -webkit-backface-visibility: hidden;
   grid-row: 2;
   grid-column: 1;
-  justify-self: start;
-  height: 35vh;
+  justify-self: center;
+  height: 70vh;
 `;
 
 const AvtcCardImage = styled(Card)`
@@ -76,12 +76,7 @@ const CodeShareImage = styled(Card)`
     props.showCodeShare ? `rotate(0deg)` : `rotate(10deg)`};
 `;
 
-const CodeShareCardActive = styled(ActiveCard)`
-  grid-row: 2;
-  grid-column: 1;
-  justify-self: start;
-  height: 35vh;
-`;
+const CodeShareCardActive = styled(ActiveCard)``;
 
 const ArcadeImage = styled(Card)`
   grid-row: 3;
@@ -96,36 +91,38 @@ const ArcadeCardActive = styled(ActiveCard)``;
 
 //Title
 const Title = styled.h1`
-  /* display: flex;
-  justify-content: end; */
-  /* display: grid;
   grid-row: 1;
-  grid-column: 3; */
-  font-size: 45px;
-  padding: 30px;
+  grid-column: span 2;
+  justify-self: center;
+  align-self: center;
+  font-size: 60px;
 `;
 
 // Github Repo link
 const GithubLink = styled.a`
-  display: flex;
-  justify-content: start;
-  grid-row: 1;
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: end;
+  align-self: start;
   font-size: 45px;
   padding: 30px;
 `;
 
 // Deployed version link
 const DeployedLink = styled.a`
-  display: flex;
-  justify-content: start;
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: start;
   font-size: 45px;
   padding: 30px;
 `;
 // youtube embeded
 const Youtube = styled(ReactPlayer)`
-  //does not work this way
-  height: 25px;
-  width: 25px;
+  grid-row: 2;
+  grid-column: 2;
+  justify-self: center;
+  align-self: end;
+  padding-bottom: 5vh;
 `;
 
 export default function ProjectCards() {
